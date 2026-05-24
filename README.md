@@ -18,6 +18,13 @@
             -webkit-tap-highlight-color: transparent; 
         }
         
+        /* Prevent body from horizontal bouncing on mobile */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+        
         :root { --brand-yellow: #facc15; --header-gold: #b58916; --bg-dark-green: #1a3c30; }
         
         /* THEME 1: DARK MODE ENGINE */
@@ -51,10 +58,10 @@
         .summary-value { font-size: 14px; font-weight: 900; }
 
         .trans-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        .trans-table th { font-size: 10px; opacity: 0.7; padding: 12px 2px; text-align: left; text-transform: uppercase; border-bottom: 2px solid rgba(0,0,0,0.1); }
-        .trans-table td { padding: 14px 2px; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .trans-table th { font-size: 11px; opacity: 0.7; padding: 10px 4px; text-align: left; text-transform: uppercase; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        .trans-table td { padding: 12px 4px; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         
-        .rem-info { font-size: 10px; opacity: 0.7; font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+        .rem-info { font-size: 11px; opacity: 0.8; font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
         body.dark-mode .rem-info { color: #facc15; }
         body.light-mode .rem-info { color: #b58916; }
         .mode-badge { font-size: 9px; padding: 2px 5px; border-radius: 4px; background: rgba(0,0,0,0.06); font-weight: 800; }
@@ -86,14 +93,14 @@
 
     <div class="w-full flex-1 flex flex-col mx-auto" id="mainApp" style="display:none;">
         
-        <header class="header-custom sticky top-0 z-40 shadow-md">
+        <header class="header-custom sticky top-0 z-40 shadow-md w-full">
             <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
                 <div class="flex items-center gap-3 overflow-hidden">
-                    <button id="backBtn" onclick="goHome()" class="lg:hidden text-xl mr-1"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button id="backBtn" onclick="goHome()" class="hidden text-xl mr-1"><i class="fa-solid fa-arrow-left"></i></button>
                     <h1 id="pageTitle" class="text-base sm:text-lg font-black truncate max-w-[180px] uppercase">KHATA PRO</h1>
                 </div>
                 <div class="flex gap-1.5">
-                    <button id="custEditBtn" onclick="openCustModal(activeCid)" class="hidden icon-btn-box text-blue-500 lg:text-inherit"><i class="fa-solid fa-user-pen"></i></button>
+                    <button id="custEditBtn" onclick="openCustModal(activeCid)" class="hidden icon-btn-box text-blue-500"><i class="fa-solid fa-user-pen"></i></button>
                     <button onclick="toggleTheme()" class="icon-btn-box"><i id="themeIcon" class="fa-solid fa-moon"></i></button>
                     <button onclick="lockApp()" class="icon-btn-box text-red-500 lg:text-inherit"><i class="fa-solid fa-lock"></i></button>
                     <button onclick="openSettings()" class="icon-btn-box"><i class="fa-solid fa-gear"></i></button>
@@ -101,9 +108,9 @@
             </div>
         </header>
 
-        <div class="max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 lg:grid-cols-3 p-4 gap-6 items-start">
+        <div class="max-w-7xl mx-auto w-full flex-1 grid grid-cols-1 lg:grid-cols-3 p-4 gap-6 items-start overflow-x-hidden">
             
-            <div id="leftWorkspacePanel" class="space-y-4 flex flex-col h-[calc(100vh-100px)] lg:h-[780px]">
+            <div id="leftWorkspacePanel" class="space-y-4 flex flex-col h-[calc(100vh-100px)] lg:h-[780px] w-full">
                 
                 <div id="promiseHeader" class="space-y-2 overflow-y-auto max-h-[160px] custom-scroll shrink-0"></div>
                 
@@ -122,20 +129,20 @@
 
             <div id="rightLedgerPanel" class="lg:col-span-2 bg-white card-bg rounded-2xl hidden lg:flex flex-col h-[calc(100vh-100px)] lg:h-[780px] relative overflow-hidden w-full">
                 
-                <div id="ledgerActiveState" class="flex flex-col h-full w-full hidden">
+                <div id="ledgerActiveState" class="flex flex-col h-full w-full hidden overflow-hidden">
                     
                     <div id="topArea" class="shrink-0"></div>
                     
-                    <div class="px-4 py-2 flex flex-wrap items-center justify-between gap-3 bg-slate-500/5 border-b border-slate-500/10 shrink-0">
-                        <div class="flex items-center gap-1 bg-black/10 rounded-lg p-0.5 text-xs font-bold">
-                            <button id="typeFilterAll" onclick="setLedgerTypeFilter('ALL')" class="px-2.5 py-1 rounded-md bg-white text-slate-900 shadow-xs">All</button>
-                            <button id="typeFilterGave" onclick="setLedgerTypeFilter('GAVE')" class="px-2.5 py-1 rounded-md text-slate-400">Gave</button>
-                            <button id="typeFilterGot" onclick="setLedgerTypeFilter('GOT')" class="px-2.5 py-1 rounded-md text-slate-400">Got</button>
+                    <div class="px-4 py-2 flex items-center justify-between gap-2 bg-slate-500/5 border-b border-slate-500/10 shrink-0">
+                        <div class="flex items-center gap-0.5 bg-black/10 rounded-lg p-0.5 text-xs font-bold">
+                            <button id="typeFilterAll" onclick="setLedgerTypeFilter('ALL')" class="px-2 py-1 rounded-md bg-white text-slate-900 shadow-xs">All</button>
+                            <button id="typeFilterGave" onclick="setLedgerTypeFilter('GAVE')" class="px-2 py-1 rounded-md text-slate-400">Gave</button>
+                            <button id="typeFilterGot" onclick="setLedgerTypeFilter('GOT')" class="px-2 py-1 rounded-md text-slate-400">Got</button>
                         </div>
                         
-                        <div class="relative flex-1 max-w-[150px] sm:max-w-[180px]">
-                            <input type="text" id="ledgerSearchInput" oninput="renderDetails()" placeholder="Search entry..." class="w-full bg-black/5 dark:bg-white/5 border-0 rounded-lg py-1 pl-2 pr-7 text-xs font-bold outline-none">
-                            <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-2 opacity-40 text-xs"></i>
+                        <div class="relative flex-1 max-w-[140px]">
+                            <input type="text" id="ledgerSearchInput" oninput="renderDetails()" placeholder="Search..." class="w-full bg-black/5 dark:bg-white/5 border-0 rounded-lg py-1 pl-2 pr-6 text-xs font-bold outline-none">
+                            <i class="fa-solid fa-magnifying-glass absolute right-2 top-2 opacity-40 text-xs"></i>
                         </div>
                     </div>
 
@@ -145,33 +152,29 @@
                             <span class="font-bold">to</span>
                             <input type="date" id="filterEndDate" onchange="renderDetails()" class="p-1 rounded bg-black/5 dark:bg-white/10 outline-none">
                         </div>
-                        <button onclick="clearDateRangeFilters()" class="text-red-500 font-extrabold px-2 py-1 bg-red-500/5 rounded-md">Clear Filter</button>
+                        <button onclick="clearDateRangeFilters()" class="text-red-500 font-extrabold px-2 py-1 bg-red-500/5 rounded-md">Clear</button>
                     </div>
 
                     <div id="dailyRow" class="grid grid-cols-2 gap-2 p-4 shrink-0"></div>
 
-                    <div class="flex-1 overflow-x-auto overflow-y-auto px-4 pb-28 custom-scroll w-full">
-                        <div class="min-w-[340px] w-full">
-                            <table class="trans-table">
-                                <thead>
-                                    <tr class="text-slate-400">
-                                        <th style="width:20%">Date</th>
-                                        <th style="width:20%">Gave (-)</th>
-                                        <th style="width:20%">Got (+)</th>
-                                        <th style="width:12%">Mod</th>
-                                        <th style="width:20%" class="text-right">Bal</th>
-                                        <th style="width:8%" class="text-right">Slip</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ledgerItemsRowsContainer" class="divide-y divide-slate-500/5"></tbody>
-                            </table>
-                        </div>
+                    <div class="flex-1 overflow-y-auto px-4 pb-28 custom-scroll w-full">
+                        <table class="trans-table">
+                            <thead>
+                                <tr class="text-slate-400">
+                                    <th style="width: 44%">Date / Details</th>
+                                    <th style="width: 25%">Gave (-)</th>
+                                    <th style="width: 23%">Got (+)</th>
+                                    <th style="width: 8%" class="text-right"><i class="fa-solid fa-print opacity-60"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody id="ledgerItemsRowsContainer" class="divide-y divide-slate-500/5"></tbody>
+                        </table>
                     </div>
 
                     <div id="footerActions" class="absolute bottom-0 left-0 right-0 p-4 bg-black/10 backdrop-blur-xl border-t border-slate-500/10 flex gap-4 z-10"></div>
                 </div>
 
-                <div id="ledgerEmptyState" class="flex flex-col items-center justify-center flex-1 text-slate-400 p-6 text-center">
+                <div id="ledgerEmptyState" class="flex flex-col items-center justify-center flex-1 text-slate-400 p-6 text-center w-full">
                     <i class="fa-solid fa-receipt text-5xl opacity-20 mb-3"></i>
                     <p class="font-bold text-sm">കണക്കുകൾ കാണാൻ കസ്റ്റമറെ ക്ലിക്ക് ചെയ്യുക</p>
                 </div>
@@ -356,10 +359,7 @@
             
             let trans = db.trans.filter(t => t.cid === activeCid).sort((a,b)=> new Date(a.date) - new Date(b.date));
             
-            // Text Query Filter Engine
             const ledSearch = document.getElementById('ledgerSearchInput') ? document.getElementById('ledgerSearchInput').value.toLowerCase() : "";
-            
-            // Custom Date Calendar Range Filters
             const sDate = document.getElementById('filterStartDate') ? document.getElementById('filterStartDate').value : "";
             const eDate = document.getElementById('filterEndDate') ? document.getElementById('filterEndDate').value : "";
 
@@ -369,7 +369,6 @@
                 const d = new Date(t.date);
                 rb += (t.type === 'GAVE' ? t.amt : -t.amt);
                 
-                // Dashboard Calculations Metrics (Unfiltered base metrics)
                 if(d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) { 
                     if(t.type==='GAVE') mGave += t.amt; else mGot += t.amt; 
                 }
@@ -377,51 +376,51 @@
                     if(t.mode==='UPI') uToday += t.amt; else cToday += t.amt; 
                 }
                 
-                // Process Filters Chain logic rules
                 if(currentLedgerTypeFilter !== 'ALL' && t.type !== currentLedgerTypeFilter) return;
                 if(sDate && t.date < sDate) return;
                 if(eDate && t.date > eDate) return;
                 if(ledSearch && !t.rem.toLowerCase().includes(ledSearch) && !t.amt.toString().includes(ledSearch)) return;
 
+                // Fixed table structure optimized perfectly for standard mobile screens
                 rowsHtml = `
                 <tr class="table-row-border hover:bg-slate-500/5 cursor-pointer transition" onclick="openEditTrans(${t.id})">
-                    <td style="width:20%" class="p-2.5 font-normal text-slate-400 text-xs">${fmtDate(t.date)}<span class="rem-info font-bold">${t.rem || ''}</span></td>
-                    <td style="width:20%" class="p-2.5 text-red-500 font-extrabold">₹${t.type==='GAVE'?t.amt.toFixed(2):'-'}</td>
-                    <td style="width:20%" class="p-2.5 text-green-500 font-extrabold">₹${t.type==='GOT'?t.amt.toFixed(2):'-'}</td>
-                    <td style="width:12%" class="p-2.5"><span class="mode-badge ${t.mode==='UPI'?'text-blue-500':'text-emerald-600'}">${t.mode==='UPI'?'U':'C'}</span></td>
-                    <td style="width:20%" class="p-2.5 text-right">₹${rb.toFixed(2)}</td>
-                    <td style="width:8%" class="p-2.5 text-right" onclick="event.stopPropagation()">
-                        <button onclick="printRowSlip(${t.id})" class="text-slate-400 hover:text-slate-600 p-1" title="Print Slip"><i class="fa-solid fa-print"></i></button>
+                    <td style="width: 44%" class="p-2 text-xs font-normal text-slate-400 break-words">
+                        ${fmtDate(t.date)} <span class="mode-badge ${t.mode==='UPI'?'text-blue-500':'text-emerald-600'}">${t.mode==='UPI'?'UPI':'Cash'}</span>
+                        <span class="rem-info font-bold">${t.rem || ''}</span>
+                    </td>
+                    <td style="width: 25%" class="p-2 text-red-500 font-extrabold text-sm truncate">₹${t.type==='GAVE'?t.amt.toFixed(0):'-'}</td>
+                    <td style="width: 23%" class="p-2 text-green-500 font-extrabold text-sm truncate">₹${t.type==='GOT'?t.amt.toFixed(0):'-'}</td>
+                    <td style="width: 8%" class="p-2 text-right" onclick="event.stopPropagation()">
+                        <button onclick="printRowSlip(${t.id})" class="text-slate-400 hover:text-slate-600 p-1"><i class="fa-solid fa-print text-xs"></i></button>
                     </td>
                 </tr>` + rowsHtml;
             });
 
-            // Injection UI Header Analytics Dashboard Template
             document.getElementById('topArea').innerHTML = `
                 <div class="p-4 bg-slate-500/5 border-b border-slate-500/10">
                     <div class="flex justify-between gap-2 mb-4">
-                        <button onclick="shareWA('${cust.phone}', ${rb.toFixed(2)})" class="flex-1 bg-green-500/10 hover:bg-green-500/20 h-9 rounded-xl flex items-center justify-center transition" title="WhatsApp Share"><i class="fa-brands fa-whatsapp text-lg text-green-600"></i></button>
-                        <button onclick="openQR(${Math.abs(rb).toFixed(2)})" class="flex-1 bg-purple-500/10 hover:bg-purple-500/20 h-9 rounded-xl flex items-center justify-center transition" title="QR Code Pay"><i class="fa-solid fa-qrcode text-lg text-purple-600"></i></button>
-                        <button onclick="openPDFModal()" class="flex-1 bg-blue-500/10 hover:bg-blue-500/20 h-9 rounded-xl flex items-center justify-center transition" title="Download Report"><i class="fa-solid fa-file-pdf text-lg text-blue-600"></i></button>
-                        <button onclick="toggleDateFilterDrawer()" class="flex-1 bg-yellow-500/10 hover:bg-yellow-500/20 h-9 rounded-xl flex items-center justify-center transition" title="Date Range Filter"><i class="fa-solid fa-calendar-days text-lg text-amber-600"></i></button>
-                        <button onclick="openPromiseModal()" class="flex-1 bg-orange-500/10 hover:bg-orange-500/20 h-9 rounded-xl flex items-center justify-center transition" title="Set Reminder Promise"><i class="fa-solid fa-calendar-check text-lg text-orange-600"></i></button>
+                        <button onclick="shareWA('${cust.phone}', ${rb.toFixed(2)})" class="flex-1 bg-green-500/10 hover:bg-green-500/20 h-9 rounded-xl flex items-center justify-center transition"><i class="fa-brands fa-whatsapp text-lg text-green-600"></i></button>
+                        <button onclick="openQR(${Math.abs(rb).toFixed(2)})" class="flex-1 bg-purple-500/10 hover:bg-purple-500/20 h-9 rounded-xl flex items-center justify-center transition"><i class="fa-solid fa-qrcode text-lg text-purple-600"></i></button>
+                        <button onclick="openPDFModal()" class="flex-1 bg-blue-500/10 hover:bg-blue-500/20 h-9 rounded-xl flex items-center justify-center transition"><i class="fa-solid fa-file-pdf text-lg text-blue-600"></i></button>
+                        <button onclick="toggleDateFilterDrawer()" class="flex-1 bg-yellow-500/10 hover:bg-yellow-500/20 h-9 rounded-xl flex items-center justify-center transition"><i class="fa-solid fa-calendar-days text-lg text-amber-600"></i></button>
+                        <button onclick="openPromiseModal()" class="flex-1 bg-orange-500/10 hover:bg-orange-500/20 h-9 rounded-xl flex items-center justify-center transition"><i class="fa-solid fa-calendar-check text-lg text-orange-600"></i></button>
                     </div>
                     <div class="text-center mb-4">
                         <p class="text-[10px] font-black opacity-50 uppercase tracking-widest">${rb >=0 ? 'ലഭിക്കാനുള്ള തുക (BALANCE)' : 'മുൻകൂർ കിട്ടിയത് (ADVANCE)'}</p>
                         <h2 class="text-3xl font-black tracking-tight">₹${Math.abs(rb).toFixed(2)}</h2>
                     </div>
                     <div class="summary-box">
-                        <div class="summary-item"><p class="summary-label text-red-500">M-GAVE</p><p class="summary-value text-red-500">₹${mGave.toFixed(2)}</p></div>
-                        <div class="summary-item"><p class="summary-label text-green-600">M-GOT</p><p class="summary-value text-green-600">₹${mGot.toFixed(2)}</p></div>
-                        <div class="summary-item"><p class="summary-label">M-NET</p><p class="summary-value ${(mGave - mGot)>=0?'text-red-500':'text-green-600'}">₹${(mGave - mGot).toFixed(2)}</p></div>
+                        <div class="summary-item"><p class="summary-label text-red-500">M-GAVE</p><p class="summary-value text-red-500">₹${mGave.toFixed(0)}</p></div>
+                        <div class="summary-item"><p class="summary-label text-green-600">M-GOT</p><p class="summary-value text-green-600">₹${mGot.toFixed(0)}</p></div>
+                        <div class="summary-item"><p class="summary-label">M-NET</p><p class="summary-value ${(mGave - mGot)>=0?'text-red-500':'text-green-600'}">₹${(mGave - mGot).toFixed(0)}</p></div>
                     </div>
                 </div>`;
 
             document.getElementById('dailyRow').innerHTML = `
-                <div class="bg-emerald-500/5 border border-emerald-500/10 p-2.5 rounded-xl text-center"><p class="text-[9px] font-black opacity-60">CASH TODAY</p><p class="text-green-500 font-black text-md">₹${cToday.toFixed(2)}</p></div>
-                <div class="bg-blue-500/5 border border-blue-500/10 p-2.5 rounded-xl text-center"><p class="text-[9px] font-black opacity-60">UPI TODAY</p><p class="text-blue-500 font-black text-md">₹${uToday.toFixed(2)}</p></div>`;
+                <div class="bg-emerald-500/5 border border-emerald-500/10 p-2.5 rounded-xl text-center"><p class="text-[9px] font-black opacity-60">CASH TODAY</p><p class="text-green-500 font-black text-md">₹${cToday.toFixed(0)}</p></div>
+                <div class="bg-blue-500/5 border border-blue-500/10 p-2.5 rounded-xl text-center"><p class="text-[9px] font-black opacity-60">UPI TODAY</p><p class="text-blue-500 font-black text-md">₹${uToday.toFixed(0)}</p></div>`;
 
-            document.getElementById('ledgerItemsRowsContainer').innerHTML = rowsHtml ? rowsHtml : `<tr><td colspan="6" class="text-center py-10 opacity-40 text-xs">No records matched</td></tr>`;
+            document.getElementById('ledgerItemsRowsContainer').innerHTML = rowsHtml ? rowsHtml : `<tr><td colspan="4" class="text-center py-10 opacity-40 text-xs">No records matched</td></tr>`;
             
             document.getElementById('footerActions').innerHTML = `
                 <button class="flex-1 p-4 bg-red-600 hover:bg-red-700 rounded-3xl font-black text-white text-xl shadow-lg transition" onclick="openAdd('GAVE')">GAVE</button>
@@ -431,8 +430,6 @@
         function openCustomer(id) { 
             activeCid = id; 
             currentLedgerTypeFilter = "ALL";
-            
-            // Screen handling breakpoint responsiveness switcher logic rule
             if (window.innerWidth < 1024) {
                 document.getElementById('leftWorkspacePanel').classList.add('hidden');
                 document.getElementById('rightLedgerPanel').classList.remove('hidden');
@@ -534,7 +531,7 @@
         function openEditTrans(tid) {
             const t = db.trans.find(x => x.id === tid);
             openModal(`
-                <h2 class="text-lg font-black mb-4 text-center text-white uppercase">EDIT ENTRY</h2>
+                <h2 class="text-base font-black mb-4 text-center uppercase tracking-wider">EDIT ENTRY</h2>
                 <div class="space-y-3 text-slate-800">
                     <input id="eta" type="number" step="0.01" class="w-full p-4 rounded-xl text-3xl text-center text-blue-600 font-black border border-slate-300" value="${t.amt}">
                     <input id="etr" type="text" class="w-full p-4 rounded-xl text-md font-bold border border-slate-300" value="${t.rem || ''}" placeholder="Remarks">
@@ -542,8 +539,8 @@
                         <input id="etd" type="date" class="w-full p-4 rounded-xl text-md border border-slate-300" value="${t.date}">
                         <input id="ett" type="hidden" value="${t.time || ''}">
                     </div>
-                    <button class="w-full p-4 bg-blue-600 text-white font-black rounded-xl text-lg transition" onclick="updateTrans(${tid})">UPDATE</button>
-                    <button class="w-full p-4 bg-red-600 text-white font-black rounded-xl text-lg transition" onclick="deleteTrans(${tid})">DELETE ENTRY</button>
+                    <button class="w-full p-4 bg-blue-600 text-white font-black rounded-xl text-lg transition shadow-md" onclick="updateTrans(${tid})">UPDATE</button>
+                    <button class="w-full p-4 bg-red-600 text-white font-black rounded-xl text-lg transition shadow-md" onclick="deleteTrans(${tid})">DELETE ENTRY</button>
                     <button class="w-full text-md text-slate-400 font-bold pt-1" onclick="closeModal()">Cancel</button>
                 </div>`);
         }
